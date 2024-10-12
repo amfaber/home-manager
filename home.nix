@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-
+{ pkgs, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -24,10 +23,25 @@
     gitui
     fzf
     nil
-    cargo
+    rust-bin.stable.latest.default
     rust-analyzer
     gcc
     wayland
+    sd
+    cloc
+    pyright
+    btop
+    jq
+    fd
+    wget
+    typescript
+    nodePackages.typescript-language-server
+    nodePackages.bash-language-server
+    busybox
+    firefox
+    wl-clipboard
+    nix-index
+    bat
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -65,9 +79,6 @@
   #
   home.sessionVariables = {
     EDITOR = "hx";
-    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath ( with pkgs; [ wayland libxkbcommon libGL mesa.drivers ] );
-    XCURSOR_PATH = "${pkgs.gnome.adwaita-icon-theme}/share/icons";
-    XCURSOR_THEME = "Adwaita";
   };
 
   # Let Home Manager install and manage itself.
@@ -92,6 +103,5 @@
   programs.zoxide = {
     enable = true;
     options = [ "--cmd=cd" ];
-    # enableZshIntegration = true;
   };
 }
