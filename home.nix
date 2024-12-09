@@ -23,7 +23,11 @@
     gitui
     fzf
     nil
-    rust-bin.stable.latest.default
+    (rust-bin.stable.latest.default.override{
+      targets = [
+        "aarch64-unknown-linux-gnu"
+      ];
+    })
     rust-analyzer
     gcc
     wayland
@@ -42,6 +46,8 @@
     wl-clipboard
     nix-index
     bat
+    lurk
+    (python312.withPackages (pypkgs: with pypkgs; [ numpy matplotlib ]))
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
