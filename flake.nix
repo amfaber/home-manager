@@ -3,19 +3,21 @@
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url = "github:nixos/nixpkgs/24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs @ { nixpkgs, home-manager, nixpkgs-unstable, ... }:
+  outputs = inputs @ { nixpkgs, home-manager, nixpkgs-unstable, nixos-wsl, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -28,6 +30,14 @@
         ];
       };
     in {
+      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          nixos-wsl.nixosModules.wsl
+          home-manager.nixosModules.home-manager
+          ./configuration.nix
+        ];
+      };
       homeConfigurations."amfaber" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 

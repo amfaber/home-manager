@@ -8,12 +8,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    # include NixOS-WSL modules
-    <nixos-wsl/modules>
-    <home-manager/nixos>
-  ];
-
   # nixpkgs.config.allowUnfree = true;
   # services.xserver.videoDrivers = [
   #   "nvidia"
