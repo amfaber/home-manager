@@ -2,8 +2,9 @@
   description = "Home Manager configuration of amfaber";
 
   inputs = {
+    self.submodules = true;
     # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
@@ -12,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -24,9 +25,9 @@
         inherit system;
         overlays = [
           (import inputs.rust-overlay)
-          (final: prev: {
-            rust-analyzer = nixpkgs-unstable.legacyPackages.${system}.rust-analyzer;
-          })
+          # (final: prev: {
+          #   rust-analyzer = nixpkgs-unstable.legacyPackages.${system}.rust-analyzer;
+          # })
         ];
       };
     in {

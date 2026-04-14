@@ -16,19 +16,27 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
+  home.packages =
+  let
+    rustToolchain = pkgs.rust-bin.stable.latest.default.override{
+      extensions = [ "rust-analyzer" ];
+    };
+  in
+  with pkgs; [
     ripgrep
     helix
     git
     gitui
     fzf
     nil
-    (rust-bin.stable.latest.default.override{
-      targets = [
-        "aarch64-unknown-linux-gnu"
-      ];
-    })
-    rust-analyzer
+    rustToolchain
+    # rustToolchain.rust-analyzer
+    # (rust-bin.stable.latest.default.override{
+    #   targets = [
+    #     "aarch64-unknown-linux-gnu"
+    #   ];
+    # })
+    # rust-analyzer
     gcc
     wayland
     sd
@@ -43,7 +51,6 @@
     nodePackages.bash-language-server
     busybox
     firefox
-    wl-clipboard
     nix-index
     bat
     lurk
